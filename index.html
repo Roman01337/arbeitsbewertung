@@ -287,66 +287,117 @@
       });
       document.getElementById('gesamt').textContent = 'Gesamtpunkte: ' + summe;
     }
+    
+    function setWatermark(doc) {
+      doc.setFontSize(50);
+      doc.setTextColor(150, 150, 150);
+      doc.text('TEST BEWERTUNG', 35, 150, { angle: 45 });
+      doc.setTextColor(0, 0, 0);
+    }
 
     exportPdfBtn.addEventListener('click', () => {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF({ unit: 'mm', format: 'a4' });
       let y = 12;
 
-      // Wasserzeichen
-      doc.setFontSize(50);
-      doc.setTextColor(150, 150, 150);
-      doc.text('TEST BEWERTUNG', 35, 150, { angle: 45, opacity: 0.2 });
-      doc.setTextColor(0, 0, 0);
-      
-      const title = (jobTitleInput.value && jobTitleInput.value.trim()) ? jobTitleInput.value.trim() : 'Entgeltbewertung';
-      doc.setFontSize(16);
-      doc.text(title, 10, y);
-      y += 8;
+      setWatermark(doc);
 
-      function addLine(text, inc = 6, x = 10) {
-        const split = doc.splitTextToSize(text, 190);
+      const title = (jobTitleInput.value && jobTitleInput.value.trim()) ? jobTitleInput.value.trim() : 'Entgeltbewertung';
+      doc.setFontSize(18);
+      doc.setFont(undefined, "bold");
+      doc.text(title, 10, y);
+      doc.setFont(undefined, "normal");
+      y += 10;
+
+      function addLine(text, inc = 6, x = 10, fontSize = 12, fontStyle = "normal", color = [0,0,0]) {
+        const split = doc.splitTextToSize(text, 180);
+        const prevSize = doc.getFontSize();
+        doc.setFontSize(fontSize);
+        doc.setFont(undefined, fontStyle);
+        doc.setTextColor(...color);
         split.forEach((line, idx) => {
-          if (y > 280) { doc.addPage(); y = 12; }
+          if (y > 280) {
+            doc.addPage();
+            setWatermark(doc);
+            y = 12;
+            doc.setFontSize(fontSize);
+            doc.setFont(undefined, fontStyle);
+            doc.setTextColor(...color);
+          }
           doc.text(line, x, y);
           y += (idx === split.length - 1 ? inc : 6);
         });
+        doc.setFontSize(prevSize);
+        doc.setFont(undefined, "normal");
+        doc.setTextColor(0,0,0);
       }
+
+      // Farbschema wie Website
+      const farben = {
+        "Wissen & Können": [251, 191, 36], // gelb
+        "Psychosoziale Anforderungen": [59, 130, 246], // blau
+        "Verantwortung": [34, 197, 94], // grün
+        "Physische Anforderungen": [147, 51, 234] // violett
+      };
 
       document.querySelectorAll('.gruppe-wrapper').forEach(group => {
         const gTitle = group.querySelector('h2')?.textContent || '';
-        if (gTitle) { doc.setFontSize(14); addLine(gTitle, 6); }
+        if (gTitle) {
+          const color = farben[gTitle] || [200,200,200];
+          // Farbiger Hintergrund
+          doc.setFillColor(...color);
+          doc.rect(8, y - 5, 194, 8, 'F');
+          doc.setFontSize(14);
+          doc.setFont(undefined, "bold");
+          doc.setTextColor(255,255,255);
+          doc.text(gTitle, 12, y);
+          doc.setFont(undefined, "normal");
+          doc.setTextColor(0,0,0);
+          y += 10;
+        }
 
         group.querySelectorAll('.anforderung-card').forEach(card => {
           const name = card.dataset.name || '';
           const typ = card.dataset.typ;
-          doc.setFontSize(12);
-          addLine('• ' + name, 6, 12);
+          addLine('• ' + name, 6, 12, 12, "bold", [0,0,0]);
 
           if (typ === 'skala') {
             const sel = card.querySelector('.skala-btn.selected');
-            if (sel) {
-              const wert = parseInt(sel.value, 10) || 0;
-              addLine(`   Punkte: ${wert}`, 6, 16);
-            } else {
-              addLine('   Punkte: —', 6, 16);
-            }
+            const wert = sel ? (parseInt(sel.value, 10) || 0) : '—';
+            addLine(`   Punkte: ${wert}`, 6, 16, 11, "normal", [0,0,0]);
           } else if (typ === 'additiv') {
             const max = parseInt(card.dataset.max, 10) || Infinity;
-            const active = Array.from(card.querySelectorAll('.additiv-btn.active'));
-            const names = active.map(b => b.dataset.label);
-            let subtotal = active.reduce((s, b) => s + (parseInt(b.dataset.value, 10) || 0), 0);
-            const gewertet = Math.min(subtotal, max);
-            addLine(`   Auswahl: ${names.length ? names.join(', ') : '—'} (Summe ${subtotal}/Max ${max}) → ${gewertet} Punkte`, 6, 16);
+            const active = card.querySelectorAll('.additiv-btn.active');
+            if (active.length > 0) {
+              addLine(`   (max ${max}) Auswahl:`, 6, 16, 11, "normal", [0,0,0]);
+              active.forEach(btn => {
+                const label = btn.dataset.label || '';
+                const wert = btn.dataset.value;
+                addLine(`     - ${label} (${wert} Punkt)`, 6, 20, 11, "normal", [0,0,0]);
+              });
+            } else {
+              addLine('   Keine Auswahl', 6, 16, 11, "normal", [0,0,0]);
+            }
           }
         });
-        y += 2;
       });
 
-      doc.setFontSize(14);
-      addLine(document.getElementById('gesamt').textContent, 8, 10);
+      // Gesamtpunktzahl am Ende
+      const gesamtText = document.getElementById('gesamt')?.textContent || '';
+      if (gesamtText) {
+        y += 10;
+        doc.setFillColor(34, 197, 94); // grün wie Website
+        doc.rect(8, y - 6, 194, 10, 'F');
+        doc.setFontSize(14);
+        doc.setFont(undefined, "bold");
+        doc.setTextColor(255,255,255);
+        doc.text(gesamtText, 12, y);
+        doc.setFont(undefined, "normal");
+        doc.setTextColor(0,0,0);
+        y += 10;
+      }
 
-      doc.save((title.replace(/[^a-z0-9\-_]+/gi,'_') || 'entgeltbewertung') + '.pdf');
+      doc.save(`${title.replace(/\\s+/g,'_')}.pdf`);
     });
 
     ladeAnforderungen();
