@@ -1,0 +1,313 @@
+{
+  "Wissen & Können": [
+    {
+      "name": "1.1 Fachkenntnisse und Fertigkeiten",
+      "beschreibung": "Fachkenntnisse sind fachbezogenes Grundwissen, das zur Ausübung der Tätigkeit erforderlich ist. Fertigkeiten sind Anforderungen an die Sinne und die physischen sowie sensomotorischen Fähigkeiten, die für die Erfüllung der Arbeitsaufgabe erforderlich sind. Dabei sind das erforderliche Reaktionsvermögen und die Geschicklichkeit, d.h. die Sicherheit, Genauigkeit und der Freiheitsgrad der Bewegungen des Körpers und einzelner Gliedmaßen zu berücksichtigen.",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 1, "label": "Kenntnisse und Fertigkeiten, erworben durch eine kurze Einarbeitungszeit bis zu einem Monat" },
+        { "wert": 2, "label": "Kenntnisse und Fertigkeiten, erworben durch eine Einarbeitungszeit von mehr als einem Monat" },
+        { "wert": 3, "label": "Fachkenntnisse und Fertigkeiten, die dem Niveau 3 des DQR zugeordnet sind: 2-jährige berufliche Ausbildungen und Mittlere Schulabschlüsse an Berufsfachschulen" },
+        { "wert": 4, "label": "Fachkenntnisse und Fertigkeiten, die dem Niveau 4 des DQR zugeordnet sind: 3 - 3,5-jährige Duale Berufsausbildungen sowie (vollqualifizierende) Berufsausbildungen an Berufsfachschulen" },
+        { "wert": 5, "label": "Fachkenntnisse und Fertigkeiten, die dem Niveau 5 des DQR zugeordnet sind: (Zertifizierter) IT-Spezialist, (Geprüfter) Servicetechniker sowie Sonstige berufliche Fortbildungsqualifikationen nach § 53+54 BBiG und § 42+42a HwO" },
+        { "wert": 6, "label": "Fachkenntnisse und Fertigkeiten, die dem Niveau 6 des DQR zugeordnet sind: Bachelorabschlüsse, Geprüfte Fachkaufleute und Fachwirt*innen, Meister*innen, (Geprüfte) Operative Professionals, Staatlich geprüfte Fachschulabschlüsse, Sonstige berufliche Fortbildungsqualifikationen nach § 53+54 BBiG und § 42+42a HwO" },
+        { "wert": 7, "label": "Fachkenntnisse und Fertigkeiten, die dem Niveau 7 des DQR zugeordnet sind: Masterabschlüsse, (Geprüfte) Strategische Professionals, Sonstige berufliche Fortbildungsqualifikationen nach § 53+54 BBiG und § 42+42a HwO" }        
+      ]
+    },
+    {
+      "name": "1.2 a erforderliche Zusatzqualifikationen (mit Zeugnis)",
+      "beschreibung": "erforderliche Zusatzqualifikationen (mit Zeugnis) Zusatzqualifikationen sind zusätzliches fachliches und unternehmensbezogenes Wissen, das zur Ausübung der Tätigkeit erforderlich ist. Hier dürfen nur Qualifikationen berücksichtigt werden, die nicht bereits unter 1.1 bewertet wurden. Es kann sich beispielsweise um fachliche Kenntnisse im Bereich Technologie, Materialkunde, Informationstechnik, Rechtsgrundlagen, methodische oder betriebswirtschaftliche Kenntnisse handeln.  Sie können auch umfangreich und fachübergreifend sein. Sie sind besonders umfangreich und komplex, wenn  Lehrgänge mit Abschlussprüfung erfolgreich besucht werden müssen. Die Zusatzqualifikation kann auf unterschiedlichen Wegen erworben werden, z.B. Kurse, Selbststudium, berufliche Praxis oder kollegialer Austausch. ",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "keine" },
+        { "wert": 1, "label": "fachliche Kenntnisse, die über die Fachkenntnisse und Fertigkeiten hinausgehen, die in der erforderlichen Ausbildung erworben wurden (Schweißer, Stapler,  ….)" },
+        { "wert": 2, "label": "umfangreiche fachliche oder fachübergreifende Kenntnisse, (Sprache, Projektleiter, Methoden, ITIL)" },
+        { "wert": 3, "label": "besonders umfangreiche und komplexe zusätzliche Fachkenntnisse oder Spezialkenntnisse" }
+      ]
+    },    
+    {
+      "name": "1.2 b erforderliche Zusatzkenntnisse und Fähigkeiten",
+      "beschreibung": "weitere Kenntnisse und Fähigkeiten, die typischerweise in Qualifizierungsprozessen ohne formale Qualifikatiionszertifikate (ohne Zeugnis) erworben werden",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "keine" },
+        { "wert": 1, "label": "Grundkenntnisse" },
+        { "wert": 2, "label": "Erweiterte Kenntnisse " },
+        { "wert": 3, "label": "Spezialkenntnisse" }
+      ]
+    },
+    {
+      "name": "1.3 a erforderliche Erfahrung auf der Stelle",
+      "beschreibung": "Gemeint sind praktische Arbeitserfahrungen auf der ausgeübten Stelle, die erforderlich sind, um die Tätigkeiten in der erwarteten 'durchschnittlichen Güte' ausüben zu können ('Einarbeitungszeit auf der Stelle'). Darüber hinausgehende Erfahrungen, die eventuell eine besondere Arbeitsleistung ermöglichen, sind hiermit nicht gemeint.",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "keine zusätzliche Einarbeitung über 1.1 hinaus erforderlich" },
+        { "wert": 1, "label": "erforderliche Erfahrung/Einarbeitung auf der Stelle bis zu 1 Jahr (inkl. unternehmensspezifische Kenntnisse)" },
+        { "wert": 2, "label": "erforderliche Erfahrung/Einarbeitung auf der Stelle mehr als 1 Jahr (inkl. unternehmensspezifische Kenntnisse)" }
+      ]
+    },
+    {
+      "name": "1.3 b erforderliche Erfahrung vor Antritt der Stelle",
+      "beschreibung": "Gemeint sind erforderliche Erfahrungen, die bereits vor Antritt der betrachteten Stelle (auch bei einem anderen Arbeitgeber) durch das Ausüben ähnlicher oder identischer Tätigkeiten  gesammelt sein müssen, um die Anforderungen der ausgeübten Stelle erfüllen zu können.",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "keine Vorerfahrung erforderlich" },
+        { "wert": 1, "label": "erforderliche Vorerfahrung auf einer anderen Stelle oder bei einem anderen Arbeitgeber von bis zu 3 Jahren" },
+        { "wert": 2, "label": "erforderliche Vorerfahrung auf einer anderen Stelle oder bei einem anderen Arbeitgeber von mehr als 3 Jahren" }
+      ]
+    },
+    {
+      "name": "1.4 Planen und Priorisieren (Handlungsspielraum)",
+      "beschreibung": "Gemeint sind die erforderlichen Fähigkeiten, die Erledigung mehrerer Aufgaben zeitlich vorausschauend zu planen und selbständig zu organisieren. Die Anforderungen an die Planungskompetenz steigen, wenn sich Rahmenbedingungen der Planung ändern und flexibel mit Planänderungen reagiert werden muss.",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "Kein selbständiges Planen und/oder Priorisieren von Arbeitsabläufen, Übernahme von klaren und eindeutigen Vorgaben (kein Handlungsspielraum)" },
+        { "wert": 1, "label": "Teilweise selbständiges Planen und/oder Priorisieren von Arbeitsabläufen, teilweise Übernahme von klaren und eindeutigen Vorgaben (geringer Handlungsspielraum)" },
+        { "wert": 2, "label": "Selbständiges Planen und/oder Priorisieren von Arbeitsabläufen, Rahmenbedingungen ändern sich im Regelfall nicht (mittlerer Handlungsspielraum)" },
+        { "wert": 3, "label": "Selbständiges Planen und/oder Priorisieren von Arbeitsabläufen, Rahmenbedingungen ändern sich häufig (hoher Handlungsspielraum)" }
+      ]
+    },
+    {
+      "name": "1.5 Umgang mit Unterbrechungen und Störungen",
+      "beschreibung": "Gemeint sind unplanbare, aber nicht vermeidbare tätigkeitsbedingte Änderungen des Arbeitsablaufes, die den geplanten Arbeitsfluss unterbrechen. Je häufiger die Störungen auftreten und je länger sie andauern, desto größer ist die Anforderung an die Fähigkeit, sich kurzzeitig auf eine neue Aufgabe einzustellen und anschließend zu dem geplanten Arbeitsablauf zurückzukehren. Beispiele für diese Anforderung sind entgegenzunehmende Telefonate, während gerade Schriftverkehr bearbeitet wird oder der ungeplante Wechsel zu einer anderen Maschine bei Mehrmaschinenarbeit. Zu beachten ist, dass hiermit nur Unterbrechungen gemeint sind, die mit der Tätigkeit verbunden und nicht vermeidbar sind. Unterbrechungen, die auf dem (zufällig vorhandenen) Charakter anderer Personen beruhen, wie z.B. stets um ein Gespräch bittende Arbeitskolleg*innen oder Vorgesetzte, fallen nicht hierunter.",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "Ungestörtes Arbeiten ist üblich." },
+        { "wert": 1, "label": "Unterbrechungen und Störungen kommen vor, sind aber eher selten." },
+        { "wert": 2, "label": "Unterbrechungen und Störungen kommen vor, und zwar häufig." }
+      ]
+    },
+    {
+      "name": "1.6 Kenntnis von Prozessen und Abläufen",
+      "beschreibung": "Gemeint sind Kenntnisse über fachlich-allgemeine oder unternehmensspezifische Prozesse und Arbeitsabläufe. Sie können einfach oder komplex sein, beispielsweise in Bezug auf die Anzahl der beteiligten Personen und Abteilungen, erforderliche Freigaben und Freigabekriterien, die Anzahl der Prozessschritte, die Anzahl von Entscheidungen und zu beachtende Qualitätskriterien.",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "erforderliche Kenntnis von einfachen und vorgegebenen Prozessen" },
+        { "wert": 1, "label": "erforderliche Kenntnis von manchmal komplexen Prozessen und Abläufen" },
+        { "wert": 2, "label": "erforderliche Kenntnis von meist komplexen Prozessen und Abläufen" },
+        { "wert": 3, "label": "erforderliche Kenntnis von meist komplexen Prozessen und Abläufen, die selbst anzueignen sind" }
+      ]
+    }
+  ],
+  "Psychosoziale Anforderungen": [
+    {
+      "name": "2.1 Kommunikationskompetenz",
+      "beschreibung": "Gemeint ist die Anforderung, mit Personen mündlich und/oder schriftlich zu kommunizieren. Dabei ist es erforderlich, die Inhalte verständlich darzustellen und dabei das Vorverständnis der  Personen, mit denen kommuniziert wird, zu berücksichtigen.",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "seltene Kommunikation über Arbeitsinhalte" },
+        { "wert": 1, "label": "gelegentliche Kommunikation über Arbeitsinhalte" },
+        { "wert": 2, "label": "häufige Kommunikation über Arbeitsinhalte, deren Inhalte für die anderen Personen leicht zu verstehen sind" },
+        { "wert": 3, "label": "häufige Kommunikation über Arbeitsinhalte, deren Inhalte für die anderen Personen schwierig zu verstehen sind" }
+      ]
+    },
+    {
+      "name": "2.2 Kooperationskompetenz",
+      "beschreibung": "Gemeint ist die Anforderung, mit anderen gemeinsam eine Aufgabe zu planen oder auszuführen. Nicht gemeint ist die klassische Zusammenarbeit zwischen Mitarbeitenden und ihrer direkten Führungskraft. Unter gemeinsamer Planung wird hier die notwendige Abstimmung in einem Arbeitsteam verstanden, durch die Arbeitsabläufe gesichert, Teilaufgaben und Zuständigkeiten aufgeteilt, sowie Termine zur Fertigstellung abgestimmt werden. Die Arbeit in Projektgruppen bedeutet das gemeinsame Arbeiten an einem Projektziel oder einer Projektaufgabe, die über das eigene Fachgebiet, die eigene Abteilung bzw. den eigenen Arbeitsbereich hinausgeht. Dabei werden verschiedene prozessbezogene und technische Methoden genutzt (z.B. präsente, hybride oder digitale Treffen, agile Teams, digitale Arbeit an einem gemeinsamen Dokument). Komplexe Projekte zeichnen sich durch Unwägbarkeiten, viele Abhängigkeiten und dynamische Entwicklungen aus.",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "bei mehr als 50% der Aufgaben alleine (Einzelarbeit)" },
+        { "wert": 1, "label": "bei mehr als 50% der Aufgaben Abstimmung mit anderen (Abstimmung im Bereich/Team)" },
+        { "wert": 2, "label": "bei mehr als 50% der Aufgaben Mitarbeit in Projekten (Abstimmung über Abt./Bereich hinaus)" },
+        { "wert": 3, "label": "bei mehr als 50% der Aufgaben Mitarbeit in komplexen Projekten (Unwägbarkeit, viele Abhängigkeiten, Unstrukturiertheit ...)" }
+      ]
+    },
+    {
+      "name": "2.3 Einfühlungs- und Überzeugungsvermögen",
+      "beschreibung": "Einfühlungsvermögen meint die Notwendigkeit, Situationen und Empfindungen anderer Personen nachvollziehen und verstehen zu können. Eine Situation ist hinsichtlich des Einfühlungsvermögens einfach, wenn sie typischerweise aus eigener Erfahrung bekannt ist. Schwierig ist eine Situation, wenn  sie sich nur aufgrund eigener Vorstellungskraft einschätzen lässt oder für die eigene Person weder als wünschenswert noch als möglich betrachtet wird. Überzeugungsvermögen meint die Fähigkeit, zu argumentieren und andere Personen von der Richtigkeit einer bestimmten Handlung, Sichtweise oder Position zu überzeugen. Eine Situation ist hinsichtlich des Überzeugungsvermögens einfach, wenn mit sachbezogenen, leicht verständlichen  Argumenten überzeugt werden kann. Schwierig sind Situationen dann, wenn die Standpunkte unterschiedlich sind und schwierige Argumentationen erfordern, oder weil sie sich logisch ausschließen oder mit grundsätzlichen Überzeugungen oder persönlicher emotionaler Betroffenheit verbunden sind.",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "nicht erforderlich" },
+        { "wert": 1, "label": "Einfühlungs- oder Überzeugungsvermögen in einfachen Situationen" },
+        { "wert": 2, "label": "Einfühlungs- und Überzeugungsvermögen in einfachen Situationen" },
+        { "wert": 2, "label": "Einfühlungs- oder Überzeugungsvermögen in schwierigen Situationen" },
+        { "wert": 3, "label": "Einfühlungs- und Überzeugungsvermögen in schwierigen Situationen" }
+      ]
+    },
+    {
+      "name": "2.4 terminliche und technologiebedingte Belastungen",
+      "beschreibung": "TBD noch erläutern",
+      "typ": "additiv",
+      "max": 3,
+      "optionen": [
+        { "wert": 1, "label": "unterschiedliche Kanäle für Informationen (verschiedene tools und features)" },
+        { "wert": 1, "label": "Auswahl aus einer Vielzahl von Informationen" },
+        { "wert": 1, "label": "zeitlicher Ablauf schlecht oder nicht beeinflussbar" },
+        { "wert": 1, "label": "Zeitdruck durch unverschiebbare Termine" },
+        { "wert": 1, "label": "Häufige Veränderungen bei der Arbeit (Prozesse, Technologien)" },
+        { "wert": 1, "label": "gestiegener Arbeitsumfang und erhöhte Arbeitsdichte (in bestimmten Phasen, Phasen besonderer Belastung, Saisongeschäft)" }
+      ]
+    },
+    {
+      "name": "2.5 psycho-soziale Belastungen",
+      "beschreibung": "Psycho-soziale Belastungen wirken sich dadurch belastend aus, dass sie negative Gefühle hervorrufen, das psychische Wohlbefinden beeinträchtigen oder sozial schwierige oder unangenehme Situationen mit sich bringen.",
+      "typ": "additiv",
+      "max": 3,
+      "optionen": [
+        { "wert": 1, "label": "regelmäßige Mitteilung unerwünschter und folgenschwerer Inhalte" },
+        { "wert": 1, "label": "Arbeit erzeugt negative Gefühle oder Widerstände bei anderen" },
+        { "wert": 1, "label": "Risiko gewalttätiger oder verbaler Übergriffe" },
+        { "wert": 1, "label": "Berufliche Anfragen auch außerhalb der Arbeitszeit zu bearbeiten" },
+        { "wert": 1, "label": "Konfrontation mit persönlichen Problemen anderer" },
+        { "wert": 1, "label": "Umgang mit den eigenen Gefühlen (z.B. Verbergen eigener Gefühlslage)" },
+        { "wert": 1, "label": "Ablenkung durch äußere Umgebung" },
+        { "wert": 1, "label": "Mitverfolgbarkeit der Arbeit durch Kameras, andere technische Einrichtungen oder direkt" }
+      ]
+    },
+    {
+      "name": "2.6 psycho-soziale Belastungen durch erhöhte Sicherheitsbedingungen",
+      "beschreibung": "Wenn die Art der auszuübenden Tätigkeit eine erhöhte Sicherheitsstufe auslöst, können die damit verbundenen Sicherheitsvorschriften und -maßnahmen zu psychischen oder psycho-sozialen Belastungen führen. Hiermit sind beispielsweise folgende Maßnahmen gemeint: - Einbringverbote - Handyverbote - Vorschrift von durchsichtigen Beuteln - Vorschriften zur Bekleidung und Haarfrisur (Zopf, Häubchen) - Vereinzelungsschleusen - erhöhte räumliche Sicherheitsbedingungen - private Einschränkungen durch die Sicherheitsstufe der Tätigkeit",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "Tätigkeit bringt keine erhöhten Sicherheitsbedingungen mit sich" },
+        { "wert": 1, "label": "Tätigkeit ist mit erhöhten Sicherheitsbedingungen  verbunden, die innerhalb der Arbeitszeit zu Einschränkungen führen" },
+        { "wert": 2, "label": "Tätigkeit ist mit erhöhten Sicherheitsbedingungen  verbunden, die auch außerhalb der Arbeitszeit zu Einschränkungen führen" }
+      ]
+    }
+  ],
+  "Verantwortung": [
+    {
+      "name": "3.1 ökonomische Verantwortung",
+      "beschreibung": "Ökonomische Verantwortung meint die Verantwortung für den materiellen oder finanziellen unternehmerischen Erfolg. Sie kann in der Verantwortung für den sorgfältigen und korrekten Umgang mit Budgets oder Maschinen bestehen. Verantwortung kann auch für eine qualitativ hochwertige Produkterstellung und die Gewährleistung von Produktsicherheit übernommen werden. Darüber hinaus kann eine Tätigkeit die Verantwortung für die Gestaltung und Einhaltung effizienter Prozesse und Abläufe beinhalten. Ökonomische Verantwortung kann auch in der Verantwortung für den Umsatz und die Auslastung eines oder mehrerer Bereiche des Unternehmens bestehen. Die Verantwortung begrenzt sich nicht auf Zeichnungsbefugnis oder Kostenstellenverantwortung, sondern erstreckt sich auch auf den kostenbewussten und sorgfältigen Umgang mit den genannten Themen.",
+      "typ": "additiv",
+      "max": 3,
+      "optionen": [
+        { "wert": 1, "label": "Verantwortung für Kalkulationen, Budgets" },
+        { "wert": 1, "label": "Verantwortung für Sachwerte (z.B. Maschinen, Betriebsmittel)" },
+        { "wert": 1, "label": "Verantwortung für Produkte und Produktsicherheit" },
+        { "wert": 1, "label": "Verantwortung für Prozesse und Abläufe" },
+        { "wert": 1, "label": "Verantwortung für Umsatz und Auslastung " }
+      ]
+    },
+    {
+      "name": "3.2 Verantwortung für den Umgang mit vertraulichen Daten und Informationen",
+      "beschreibung": "Gemeint ist die Anforderung, verantwortungsvoll und unter Beachtung datenschutzrechtlicher Bestimmungen mit (vertraulichen) personenbezogenen und/ oder geschäftlichen Daten und Informationen umzugehen, deren unsachgemäße Verbreitung Schaden anrichten würde.",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "kein Umgang mit vertraulichen Daten und Informationen" },
+        { "wert": 2, "label": "Umgang mit vertraulichen Daten und Informationen" },
+        { "wert": 4, "label": "Umgang mit streng vertraulichen Daten und Informationen " }
+      ]
+    },
+    {
+      "name": "3.3 Verantwortung für die physische und psychische Gesundheit anderer",
+      "beschreibung": "Verantwortung für die physische Gesundheit betrifft die körperliche Unversehrtheit und das körperliche Wohlbefinden anderer Personen, bspw. in den Bereichen Medizin, Produkt- oder Arbeitssicherheit. Verantwortung für die psychische Gesundheit wird durch Rücksichtnahme auf die psychische Verfassung anderer Personen und die positive Gestaltung von Gesprächs- und Gruppensituationen übernommen.",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "keine Verantwortung" },
+        { "wert": 1, "label": "Verantwortung für physische oder psychische Gesundheit anderer Personen" },
+        { "wert": 2, "label": "Verantwortung für physische und psychische Gesundheit anderer Personen" }
+      ]
+    },
+    {
+      "name": "3.4 Verantwortung für die Arbeit anderer und Führung",
+      "beschreibung": "Bei der Verantwortung für die Arbeit anderer kann es sich um die Verantwortung für Termine oder die Arbeitsorganisation anderer Personen handeln, oder auch um die regelmäßige Begleitung von Qualifizierungsprozessen, z.B. von Praktikant*innen, Studierenden und Auszubildenden. Ebenfalls fällt hierunter eine Projektleitung, die Koordination einer ständigen Arbeitsgruppe oder die Fachaufsicht über einen definierten fachlichen Bereich. Mit Führungsverantwortung ist sowohl die disziplinarische Führung von Mitarbeiter*innen als auch die Verantwortlichkeit für die Erarbeitung strategischer Konzepte für das Unternehmen gemeint.",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "keine Verantwortung für die Arbeit anderer" },
+        { "wert": 1, "label": "Verantwortung für Termine, Arbeitsorganisation oder Qualifizierung anderer" },
+        { "wert": 2, "label": "Verantwortung für eine Projektteam, eine Fach- oder Arbeitsgruppe" },
+        { "wert": 3, "label": "disziplinarische Gesamt-Führungsverantwortung für bis zu 9 Beschäftigte" },
+        { "wert": 4, "label": "disziplinarische Gesamt-Führungsverantwortung für ab 10 Beschäftigte oder disziplinarische Gesamt-Führungsverantwortung für mindestens 2 andere Führungskräfte oder Erarbeitung strategischer Konzepte für das Unternehmen" }
+      ]
+    },
+    {
+      "name": "3.5 Verantwortung für die eigene Qualifizierung",
+      "beschreibung": "Verantwortung für die eigene Qualifizierung liegt vor, wenn nicht nur ausnahmsweise, sondern regelmäßig fachlich-inhaltliche, technologische, prozessbezogene oder anderweitige Neuerungen beachtet werden müssen, und die Aneignung der erforderlichen Kenntnisse nicht systematisch (durch das Unternehmen) organisiert und angeboten wird, sondern selbständig und in eigener Initiative erfolgen muss. Die Aneigung der Kenntnisse kann beispielsweise durch Selbstlernen mit Hilfe analoger oder digitaler Lernmedien, Hilfefunktionen und unternehmensinterne und -externe Informationsplattformen, durch kollegialen Austausch oder Ausprobieren (Versuch und Irrtum) erfolgen.",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "keine Verantwortung für die eigene Qualifizierung" },
+        { "wert": 1, "label": "Verantwortung für die Aktualisierung des vorhandenen Wissens" },
+        { "wert": 2, "label": "Verantwortung für die Erweiterung oder Vertiefung des Wissens" }
+      ]
+    },
+    {
+      "name": "3.6 Verantwortung für die Umwelt",
+      "beschreibung": "Eine Verantwortung für die Umwelt liegt bei Tätigkeiten vor, bei denen Fehler zu Umweltschäden führen können. Bspw. müssen beim Umgang mit Gefahrstoffen Vorkehrungen zur Prävention getroffen und beachtet werden. Eine erhöhte Umweltverantwortung liegt vor, wenn Prozesse oder Arbeitsabläufe verantwortlich geplant werden, die den Umgang mit Gefahrstoffen beinhalten. Die Verantwortung für die Umwelt muss über eine allgemein in der Gesellschaft empfundene Verantwortung hinausgehen, z.B. sparsamer Umgang mit Energie oder Papier.",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "Verantwortung für den sparsamen Umgang mit Ressourcen" },
+        { "wert": 1, "label": "Verantwortung für den Umgang mit Gefahrstoffen" },
+        { "wert": 2, "label": "Verantwortung für die Planung von Prozessen, die Gefahrstoffe beinhalten" }
+      ]
+    }
+  ],
+  "Physische Anforderungen": [
+    {
+      "name": "4.1 Körperkraft",
+      "beschreibung": "Es besteht die Möglichkeit, dass bei Ausübung der Tätigkeit Gegenstände oder Personen gehoben, getragen oder bewegt werden müssen. Die Intensität dieser Belastung durch das Gewicht oder die Häufigkeit wird getrennt von der Bewertung der Stelle durch ein Zulagensystem eingestuft und vergütet.",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "Körperkraft ist nicht erforderlich" },
+        { "wert": 2, "label": "Körperkraft kann erforderlich sein." }
+      ]
+    },
+    {
+      "name": "4.2 Körperhaltung",
+      "beschreibung": "Es besteht die Möglichkeit, dass bei Ausübung der Tätigkeit besondere Anforderungen an Körperhaltung gestellt werden, beispielsweise dadurch dass - unangenehme Körperhaltungen eingenommen werden müssen oder - bestimmte Bewegungsabläufe häufig wiederholt werden müssen oder - überwiegend gegangen oder gestanden werden muss, ohne dass die Möglichkeit besteht sich zu setzen oder - Bedienungselemente präzise bewegt werden müssen Die Intensität dieser Belastungen wird durch ein Zulagensystem eingestuft und vergütet.",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "keine besonderen Anforderungen an die Körperhaltung" },
+        { "wert": 2, "label": "Besondere Anforderungen an die Körperhaltung können erforderlich sein" }
+      ]
+    },
+    {
+      "name": "4.3 Sinnesorgane",
+      "beschreibung": "Es besteht die Möglichkeit, dass bei Ausübung der Tätigkeit Sinnesorgane in besonderer Weise belastet werden, in dem beispielsweise entweder - eine intensive Belastung der Augen vorliegt oder - unangenehme Gerüche ertragen werden müssen oder - Ohren durch Lärm belastet weden oder - der Organismaus durch Vibrationen belastet wird Die Intensität dieser Belastungen wird durch ein Zulagensystem eingestuft und vergütet.",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "Sinnesorgane werden nicht in besonderer Weise belastet" },
+        { "wert": 2, "label": "Es besteht die Möglichkeit, dass Sinnesorgane in besonderer Weise belastet werden." }
+      ]
+    },
+    {
+      "name": "4.4 Verpflichtende Arbeitszeitliche Belastungen",
+      "beschreibung": "Bei der Ausübung mancher Tätigkeiten besteht die Möglichkeit, dass verpflichtend und unveränderbar die Bereitschaft zu belastenden arbeitszeitlichen Bedingungen erforderlich ist, die sich durch ihre Lage oder ihre geringe Planbarkeit als belastend für den menschlichen Organismus oder seine soziale Einbindung auswirken. Mehrfachnennungen sind möglich. Dies kann dadurch entstehen, dass a) Arbeitszeiten kurzfristig bekannt gegeben, verändert oder verlängert werden b) die Bereitschaft gegeben sein muss, Vertretungsbereitschaft, Rufbereitschaft oder Bereitschaftsdienste zu übernehmen c) die Bereitschaft zur Feiertags- und/oder Wochenendarbeit gegeben sein muss d) die Bereitschaft zu Schichtarbeit, Früh-, Spätschicht gegeben sein muss",
+      "typ": "additiv",
+      "max": 4,
+      "optionen": [
+        { "wert": 0, "label": "keine besonderen und verpflichtenden arbeitszeilichen Belastungen" },
+        { "wert": 1, "label": "Arbeitszeiten können kurzfristig bekannt gegeben oder verlängert werden" },
+        { "wert": 1, "label": "Vertretungsbereitschaften, Rufbereitschaften oder Bereitschaftsdienste können erwartet werden" },
+        { "wert": 1, "label": "Feiertags- und/oder Wochenendarbeit kann erforderlich sein" },
+        { "wert": 1, "label": "Schichtarbeit, Früh-, Spät- und/oder Nachtarbeit können erforderlich sein" }
+      ]
+    },
+    {
+      "name": "4.5 Besondere Gefahren bei der Ausübung der Tätigkeit",
+      "beschreibung": "Es besteht die Möglichkeit, dass bei der Ausübung der Tätigkeit besondere Gefahren bestehen. Dies können beispielsweise sein: - Unfallgefahr - Umgang mit Gefahrstoffen - Konfrontation mit Dämpfen, Stäuben (z.B. Pigmente, Partikel) oder Strahlung Die Intensität dieser Gefahren wird durch ein Zulagensystem eingestuft und vergütet.",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "Es bestehen keine besonderen Gefahren (Gefährdungen)." },
+        { "wert": 1, "label": "Besondere Gefahren können bestehen (Gefährdungen)." }
+      ]
+    },
+    {
+      "name": "4.6 Belastende klimatische Bedingungen",
+      "beschreibung": "Es kann möglich sein, dass die Tätigkeit unter besonders belastenden klimatischen Bedingungen ausgeübt werden muss. Dies können sein: - besondere Hitze, Kälte oder Temperaturschwankungen - besonders hohe oder niedrige Luftfeuchtigkeit - verringerter Sauerstoffgehalt - Zugluft Die Intensität dieser Bedingungen wird durch ein Zulagensystem eingestuft und vergütet.",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "Es gibt keine besonders belastenden klimatischen Bedingungen" },
+        { "wert": 1, "label": "Es können besonders belastende klimatische Bedingungen entstehen." }
+      ]
+    },
+    {
+      "name": "4.7 Erforderliche Schutz- und Sicherheitsmaßnahmen",
+      "beschreibung": "Es kann die Notwendigkeit bestehen, bei Ausübung der Tätigkeit besondere Schutz- und Sicherheitsmaßnahmen zu ergreifen oder entsprechende Vorschriften zu beachten. Es kann sich dabei handeln um: - notwendiges Tragen von Schutzkleidung - erschwerter Zugang zu Sozialräumen Die Intensität dieser Belastungen wird durch ein Zulagensystem eingestuft und vergütet.",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "Es sind keine besonderen Schutz- und Sicherheitsmaßnahmen erforderlich." },
+        { "wert": 1, "label": "Es können besondere Schutz- und Sicherheitsmaßnahmen erforderlich werden." }
+      ]
+    },
+    {
+      "name": "4.8 Belastung durch Schmutz",
+      "beschreibung": "Es kann sein, dass bei  der Ausübung von Arbeit eine besondere Belastung durch den Umgang mit Schmutz entsteht. Hierunter wird beispielsweise der Umgang mit Farben, Abfällen, Schimmel oder Fäkalien verstanden. Die Intensität dieser Belastungen wird durch ein Zulagensystem eingestuft und vergütet.",
+      "typ": "skala",
+      "punkte": [
+        { "wert": 0, "label": "Es besteht keine Belastung durch den Umgang mit Schmutz." },
+        { "wert": 1, "label": "Es kann eine Belastung durch den Umgang mit Schmutz entstehen." }
+      ]
+    }
+  ]
+}
