@@ -26,13 +26,16 @@
 
     <div id="anforderungen" class="space-y-4"></div>
 
-    <div id="gesamt" class="mt-10 p-6 bg-green-100 text-green-800 text-xl font-bold rounded-2xl text-center shadow-lg dark:bg-green-800 dark:text-green-100">
-      Gesamtpunkte: 0
+    <div class="mt-10 flex items-center justify-between gap-4">
+      <div id="gesamt" class="flex-1 p-6 bg-green-100 text-green-800 text-xl font-bold rounded-2xl text-center shadow-lg dark:bg-green-800 dark:text-green-100">
+        Gesamtpunkte: 0
+      </div>
+      <button id="exportPdf" class="h-full px-4 py-2 rounded-lg border border-gray-400 dark:border-gray-600 bg-green-600 text-white hover:bg-green-700 shrink-0">
+        Export PDF
+      </button>
     </div>
 
-    <div class="mt-4 flex justify-end">
-      <button id="exportPdf" class="px-4 py-2 rounded-lg border border-gray-400 dark:border-gray-600 bg-green-600 text-white hover:bg-green-700">Export PDF</button>
-    </div>
+    <div id="versionInfo" class="mt-4 text-sm text-gray-600 dark:text-gray-400 text-right"></div>
   </div>
   
   <script type="application/json" id="anforderungen-data">
@@ -47,19 +50,6 @@
           {"wert": 1, "label": "Leicht"},
           {"wert": 2, "label": "Mittel"},
           {"wert": 3, "label": "Schwer"}
-        ]
-      },
-      {
-        "name": "Arbeitszeitliche Belastungen",
-        "beschreibung": "Unregelmäßige oder belastende Arbeitszeiten.",
-        "typ": "additiv",
-        "max": 3,
-        "optionen": [
-          {"wert": 1, "label": "Nachtarbeit"},
-          {"wert": 1, "label": "Wochenendarbeit"},
-          {"wert": 1, "label": "Schichtarbeit"},
-          {"wert": 1, "label": "Rufbereitschaft"},
-          {"wert": 1, "label": "Überstunden"}
         ]
       }
     ]
@@ -90,21 +80,48 @@
       try {
         const response = await fetch('anforderungen.json', { cache: 'no-store' });
         if (!response.ok) throw new Error('HTTP ' + response.status);
+
         const data = await response.json();
+        // Version und Daten global speichern
+        window.currentAnforderungenData = data || {};
         render(data);
+
+        // Version unten auf der Seite anzeigen
+        const versionInfo = document.getElementById("versionInfo");
+        if (versionInfo) {
+          versionInfo.textContent = "Version: " + (data.version || "unbekannt");
+        }
+
         return;
       } catch (err) {
+        console.warn("Externe Anforderungen konnten nicht geladen werden:", err);
+
         const embedded = document.getElementById('anforderungen-data');
-        try {
-          const data = JSON.parse(embedded.textContent);
-          render(data);
-          zeigeHinweis("Externe Datei \"anforderungen.json\" wurde nicht geladen. Eingebettete Daten werden verwendet.");
-        } catch (parseErr) {
-          zeigeHinweis("Fehler beim Laden der Daten. Bitte prüfen Sie die JSON-Struktur.");
-          console.error('JSON-Parse-Fehler:', parseErr);
+        if (embedded) {
+          try {
+            const data = JSON.parse(embedded.textContent);
+
+            // Version und Daten global speichern
+            window.currentAnforderungenData = data || {};
+            render(data);
+
+            // Version unten auf der Seite anzeigen
+            const versionInfo = document.getElementById("versionInfo");
+            if (versionInfo) {
+              versionInfo.textContent = "Version: " + (data.version || "unbekannt");
+            }
+
+            zeigeHinweis("Externe Datei \"anforderungen.json\" wurde nicht geladen. Eingebettete Daten werden verwendet.");
+          } catch (parseErr) {
+            zeigeHinweis("Fehler beim Laden der eingebetteten Daten. Bitte prüfen Sie die JSON-Struktur.");
+            console.error('JSON-Parse-Fehler:', parseErr);
+          }
+        } else {
+          zeigeHinweis("Keine Anforderungsdaten gefunden.");
         }
       }
     }
+
 
     function zeigeHinweis(text) {
       hinweis.textContent = text;
@@ -127,6 +144,7 @@
     function render(data) {
       const container = document.getElementById('anforderungen');
       container.innerHTML = '';
+
       const farben = {
         "Wissen & Können": "bg-yellow-50 border-l-4 border-yellow-400 dark:bg-yellow-900/40 dark:border-yellow-500",
         "Psychosoziale Anforderungen": "bg-blue-50 border-l-4 border-blue-400 dark:bg-blue-900/40 dark:border-blue-500",
@@ -135,6 +153,9 @@
       };
 
       Object.keys(data).forEach(gruppe => {
+        // Version oder andere Metadaten überspringen
+        if (!Array.isArray(data[gruppe])) return;
+
         const gruppeWrapper = document.createElement('div');
         gruppeWrapper.className = `gruppe-wrapper shadow-xl rounded-2xl ${farben[gruppe] || 'bg-white dark:bg-gray-800'} border dark:border-gray-700`;
         gruppeWrapper.dataset.group = gruppe;
@@ -340,11 +361,14 @@
         "Physische Anforderungen": [147, 51, 234] // violett
       };
 
+      // Version aus JSON holen
+      const anforderungsData = window.currentAnforderungenData || {};
+      const version = anforderungsData.version || "unbekannt";
+
       document.querySelectorAll('.gruppe-wrapper').forEach(group => {
         const gTitle = group.querySelector('h2')?.textContent || '';
         if (gTitle) {
           const color = farben[gTitle] || [200,200,200];
-          // Farbiger Hintergrund
           doc.setFillColor(...color);
           doc.rect(8, y - 5, 194, 8, 'F');
           doc.setFontSize(14);
@@ -386,7 +410,7 @@
       const gesamtText = document.getElementById('gesamt')?.textContent || '';
       if (gesamtText) {
         y += 10;
-        doc.setFillColor(34, 197, 94); // grün wie Website
+        doc.setFillColor(34, 197, 94);
         doc.rect(8, y - 6, 194, 10, 'F');
         doc.setFontSize(14);
         doc.setFont(undefined, "bold");
@@ -396,6 +420,13 @@
         doc.setTextColor(0,0,0);
         y += 10;
       }
+
+      // --- Datum und Version unten einfügen ---
+      const heute = new Date().toLocaleDateString("de-DE");
+      doc.setFontSize(10);
+      doc.setTextColor(100, 100, 100);
+      doc.text(`Datum: ${heute}`, 10, 290);
+      doc.text(`Version: ${version}`, 150, 290);
 
       doc.save(`${title.replace(/\\s+/g,'_')}.pdf`);
     });
