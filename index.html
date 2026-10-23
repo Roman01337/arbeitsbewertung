@@ -142,10 +142,7 @@
       arbeitsplatzNameAnzeige.textContent = jobTitleInput.value.trim();
     });
 
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.documentElement.classList.add('dark');
-      darkModeToggle.textContent = '☀️';
-    }
+    // Standard ist der helle Modus; dunkel nur über den Schalter
     darkModeToggle.addEventListener('click', () => {
       document.documentElement.classList.toggle('dark');
       darkModeToggle.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
