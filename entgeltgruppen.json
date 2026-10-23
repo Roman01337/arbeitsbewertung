@@ -1,0 +1,17 @@
+{
+  "entgeltgruppen": [
+    {"gruppe": 1, "ab": 14, "entgelt": 2500.00},
+    {"gruppe": 2, "ab": 18, "entgelt": 2750.00},
+    {"gruppe": 3, "ab": 22, "entgelt": 3025.00},
+    {"gruppe": 4, "ab": 26, "entgelt": 3327.50},
+    {"gruppe": 5, "ab": 30, "entgelt": 3660.25},
+    {"gruppe": 6, "ab": 34, "entgelt": 4026.28},
+    {"gruppe": 7, "ab": 38, "entgelt": 4428.90},
+    {"gruppe": 8, "ab": 42, "entgelt": 4871.79},
+    {"gruppe": 9, "ab": 46, "entgelt": 5358.97},
+    {"gruppe": 10, "ab": 50, "entgelt": 5894.87},
+    {"gruppe": 11, "ab": 54, "entgelt": 6484.36},
+    {"gruppe": 12, "ab": 58, "entgelt": 7132.79},
+    {"gruppe": 13, "ab": 62, "entgelt": 7846.07}
+  ]
+}

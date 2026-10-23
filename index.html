@@ -3,13 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <title>Arbeitsbewertung</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = { darkMode: 'class' };
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- Lokal eingebunden (keine externen Server); Lizenzen in vendor/LICENSES. CSS neu erzeugen: build-css.ps1 -->
+  <link rel="stylesheet" href="vendor/tailwind.css">
+  <script src="vendor/jspdf.umd.min.js"></script>
+  <style>
+    /* Punkte nur im Preview-Modus anzeigen */
+    body:not(.preview) .nur-preview { display: none; }
+    body.preview .nur-normal { display: none; }
+
+    /* Auswahlzeilen: Radio (skala) bzw. Checkbox (additiv) */
+    .skala-btn.selected, .additiv-btn.active, .keins-btn.active { background: #e0e7ff; border-color: #4f46e5; }
+    .dark .skala-btn.selected, .dark .additiv-btn.active, .dark .keins-btn.active { background: rgba(79, 70, 229, .3); border-color: #818cf8; }
+    .indikator {
+      width: 1.25rem; height: 1.25rem; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid #6b7280; background: #fff; transition: all .15s;
+    }
+    .dark .indikator { border-color: #6b7280; background: #1f2937; }
+    .skala-btn .indikator { border-radius: 9999px; }
+    .additiv-btn .indikator, .keins-btn .indikator { border-radius: .3rem; }
+    .skala-btn.selected .indikator { border-color: #4f46e5; background: #4f46e5; box-shadow: inset 0 0 0 3px #fff; }
+    .dark .skala-btn.selected .indikator { border-color: #818cf8; background: #818cf8; box-shadow: inset 0 0 0 3px #1f2937; }
+    .additiv-btn.active .indikator, .keins-btn.active .indikator { border-color: #4f46e5; background: #4f46e5; }
+    .dark .additiv-btn.active .indikator, .dark .keins-btn.active .indikator { border-color: #818cf8; background: #818cf8; }
+    .additiv-btn.active .indikator::after, .keins-btn.active .indikator::after {
+      content: ''; width: .35rem; height: .65rem; margin-top: -2px;
+      border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg);
+    }
+
+    /* Preview-Schalter als kleiner Switch */
+    .schalter-spur {
+      position: relative; width: 2rem; height: 1.125rem; border-radius: 9999px;
+      background: #9ca3af; transition: background .2s;
+    }
+    .dark .schalter-spur { background: #4b5563; }
+    .schalter-spur::after {
+      content: ''; position: absolute; top: 2px; left: 2px;
+      width: calc(1.125rem - 4px); height: calc(1.125rem - 4px); border-radius: 9999px;
+      background: #fff; box-shadow: 0 1px 2px rgba(0, 0, 0, .3); transition: transform .2s;
+    }
+    #previewToggle:checked + .schalter-spur { background: #f59e0b; }
+    #previewToggle:checked + .schalter-spur::after { transform: translateX(.875rem); }
+    #previewToggle:focus-visible + .schalter-spur { outline: 2px solid #6366f1; outline-offset: 2px; }
+    body.preview .schalter-text { color: #d97706; }
+  </style>
 </head>
-<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100 font-sans transition-colors duration-300">
+<body class="bg-gray-200 text-gray-900 dark:bg-gray-900 dark:text-gray-100 font-sans transition-colors duration-300">
   <div class="max-w-5xl mx-auto p-6">
     <div class="flex justify-between items-start mb-6 gap-4">
       <div class="flex-1">
@@ -17,9 +56,16 @@
         <h2 id="arbeitsplatzNameAnzeige" class="text-2xl font-semibold mb-4 text-gray-700 dark:text-gray-200"></h2>
         <label for="jobTitle" class="block text-lg mb-2">Name des Arbeitsplatzes</label>
         <input id="jobTitle" type="text" placeholder="z. B. Sachbearbeitung Einkauf"
-               class="w-full text-lg rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+               class="w-full text-lg rounded-lg border border-gray-400 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
       </div>
-      <button id="darkModeToggle" class="shrink-0 px-3 py-2 rounded-lg border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 mt-10" title="Hell/Dunkel umschalten">🌙</button>
+      <div class="shrink-0 flex flex-col items-end gap-2">
+        <label class="flex items-center gap-2 cursor-pointer select-none" title="Punkte und Entgeltgruppen anzeigen, Export ohne vollständige Auswahl erlauben">
+          <span class="schalter-text text-xs font-medium uppercase tracking-wide text-gray-600 dark:text-gray-400">Preview</span>
+          <input id="previewToggle" type="checkbox" class="sr-only" />
+          <span class="schalter-spur" aria-hidden="true"></span>
+        </label>
+        <button id="darkModeToggle" class="px-3 py-2 rounded-lg border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 mt-4" title="Hell/Dunkel umschalten">🌙</button>
+      </div>
     </div>
 
     <div id="hinweis" class="hidden mb-4 p-4 rounded-xl bg-yellow-100 text-yellow-900 text-sm shadow dark:bg-yellow-900 dark:text-yellow-100"></div>
@@ -27,15 +73,19 @@
     <div id="anforderungen" class="space-y-4"></div>
 
     <div class="mt-10 flex items-center justify-between gap-4">
-      <div id="gesamt" class="flex-1 p-6 bg-green-100 text-green-800 text-xl font-bold rounded-2xl text-center shadow-lg dark:bg-green-800 dark:text-green-100">
-        Gesamtpunkte: 0
+      <div id="gesamt" class="flex-1 p-6 bg-green-200 text-green-900 text-xl font-bold rounded-2xl text-center shadow-lg dark:bg-green-800 dark:text-green-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
       </div>
-      <button id="exportPdf" class="h-full px-4 py-2 rounded-lg border border-gray-400 dark:border-gray-600 bg-green-600 text-white hover:bg-green-700 shrink-0">
-        Export PDF
-      </button>
+      <div class="flex flex-col gap-2 shrink-0">
+        <button id="exportPdf" disabled class="px-4 py-2 rounded-lg border border-gray-400 dark:border-gray-600 bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-green-600">
+          Export PDF
+        </button>
+        <button id="exportCsv" disabled class="px-4 py-2 rounded-lg border border-gray-400 dark:border-gray-600 bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-green-600">
+          Export CSV
+        </button>
+      </div>
     </div>
 
-    <div id="versionInfo" class="mt-4 text-sm text-gray-600 dark:text-gray-400 text-right"></div>
+    <div id="versionInfo" class="mt-4 text-sm text-gray-700dark:text-gray-400 text-right"></div>
   </div>
   
   <script type="application/json" id="anforderungen-data">
@@ -55,11 +105,36 @@
     ]
   }
   </script>
-  
+
+  <script type="application/json" id="entgeltgruppen-data">
+  {
+    "entgeltgruppen": [
+      {"gruppe": 1, "ab": 14, "entgelt": 2500.00},
+      {"gruppe": 2, "ab": 18, "entgelt": 2750.00},
+      {"gruppe": 3, "ab": 22, "entgelt": 3025.00},
+      {"gruppe": 4, "ab": 26, "entgelt": 3327.50},
+      {"gruppe": 5, "ab": 30, "entgelt": 3660.25},
+      {"gruppe": 6, "ab": 34, "entgelt": 4026.28},
+      {"gruppe": 7, "ab": 38, "entgelt": 4428.90},
+      {"gruppe": 8, "ab": 42, "entgelt": 4871.79},
+      {"gruppe": 9, "ab": 46, "entgelt": 5358.97},
+      {"gruppe": 10, "ab": 50, "entgelt": 5894.87},
+      {"gruppe": 11, "ab": 54, "entgelt": 6484.36},
+      {"gruppe": 12, "ab": 58, "entgelt": 7132.79},
+      {"gruppe": 13, "ab": 62, "entgelt": 7846.07}
+    ]
+  }
+  </script>
+
   <script>
+    // Version der Applikation (index.html); der Datenstand kommt aus "version" in anforderungen.json
+    const APP_VERSION = '2026.10.23';
+
     const hinweis = document.getElementById('hinweis');
     const darkModeToggle = document.getElementById('darkModeToggle');
     const exportPdfBtn = document.getElementById('exportPdf');
+    const exportCsvBtn = document.getElementById('exportCsv');
+    const previewToggle = document.getElementById('previewToggle');
     const jobTitleInput = document.getElementById('jobTitle');
     const arbeitsplatzNameAnzeige = document.getElementById('arbeitsplatzNameAnzeige');
 
@@ -86,11 +161,7 @@
         window.currentAnforderungenData = data || {};
         render(data);
 
-        // Version unten auf der Seite anzeigen
-        const versionInfo = document.getElementById("versionInfo");
-        if (versionInfo) {
-          versionInfo.textContent = "Version: " + (data.version || "unbekannt");
-        }
+        zeigeVersion();
 
         return;
       } catch (err) {
@@ -105,11 +176,7 @@
             window.currentAnforderungenData = data || {};
             render(data);
 
-            // Version unten auf der Seite anzeigen
-            const versionInfo = document.getElementById("versionInfo");
-            if (versionInfo) {
-              versionInfo.textContent = "Version: " + (data.version || "unbekannt");
-            }
+            zeigeVersion();
 
             zeigeHinweis("Externe Datei \"anforderungen.json\" wurde nicht geladen. Eingebettete Daten werden verwendet.");
           } catch (parseErr) {
@@ -123,22 +190,83 @@
     }
 
 
+    // Zuordnung Punkte -> Entgeltgruppe aus entgeltgruppen.json (Fallback: eingebettete Daten)
+    let entgeltgruppen = [];
+
+    async function ladeEntgeltgruppen() {
+      let data;
+      try {
+        const response = await fetch('entgeltgruppen.json', { cache: 'no-store' });
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        data = await response.json();
+      } catch (err) {
+        console.warn("Externe Entgeltgruppen konnten nicht geladen werden:", err);
+        try {
+          data = JSON.parse(document.getElementById('entgeltgruppen-data').textContent);
+          zeigeHinweis("Externe Datei \"entgeltgruppen.json\" wurde nicht geladen. Eingebettete Daten werden verwendet.");
+        } catch (parseErr) {
+          zeigeHinweis("Fehler beim Laden der Entgeltgruppen. Bitte prüfen Sie die JSON-Struktur.");
+          console.error('JSON-Parse-Fehler:', parseErr);
+          return;
+        }
+      }
+      entgeltgruppen = (data.entgeltgruppen || []).slice().sort((a, b) => a.ab - b.ab);
+      berechneSumme();
+    }
+
+    // Höchste Entgeltgruppe, deren Untergrenze erreicht ist; darunter gilt die niedrigste Gruppe
+    function entgeltgruppeFuer(punkte) {
+      let treffer = entgeltgruppen[0];
+      entgeltgruppen.forEach(eg => { if (punkte >= eg.ab) treffer = eg; });
+      return treffer ? `Entgeltgruppe ${treffer.gruppe}` : '';
+    }
+
+    function datenVersion() {
+      return (window.currentAnforderungenData || {}).version || 'unbekannt';
+    }
+
+    // Versionen unten auf der Seite anzeigen
+    function zeigeVersion() {
+      const versionInfo = document.getElementById('versionInfo');
+      if (versionInfo) {
+        versionInfo.textContent = `App-Version: ${APP_VERSION} · Datenstand: ${datenVersion()}`;
+      }
+    }
+
     function zeigeHinweis(text) {
-      hinweis.textContent = text;
+      hinweis.textContent = hinweis.classList.contains('hidden') ? text : hinweis.textContent + ' ' + text;
       hinweis.classList.remove('hidden');
     }
 
+    function textSpan(text, className) {
+      const span = document.createElement('span');
+      span.className = className;
+      span.textContent = text;
+      return span;
+    }
+
+    // Ganze Zeile anklickbar: Text, Punkte nur im Preview-Modus, Indikator (Radio/Checkbox) rechts
+    function optionZeile(klasse, rolle, text, punkteText) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.setAttribute('role', rolle);
+      btn.setAttribute('aria-checked', 'false');
+      btn.dataset.label = text;
+      btn.className = `${klasse} w-full flex items-center gap-3 text-left rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 px-3 py-2 min-h-[3rem] hover:border-indigo-500dark:hover:border-indigo-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 transition-colors`;
+
+      btn.appendChild(textSpan(text, 'flex-1 break-words'));
+      btn.appendChild(textSpan(punkteText, 'nur-preview shrink-0 text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-300 text-gray-800 dark:bg-gray-600 dark:text-gray-100'));
+      btn.appendChild(textSpan('', 'indikator'));
+      return btn;
+    }
+
     function styleSkalaBtn(btn, selected) {
-      btn.classList.remove('bg-indigo-200','border-indigo-500','text-indigo-900','dark:bg-indigo-600','dark:text-white','dark:border-indigo-400','selected');
-      if (selected) {
-        btn.classList.add('bg-indigo-200','border-indigo-500','text-indigo-900','dark:bg-indigo-600','dark:text-white','dark:border-indigo-400','selected');
-      }
+      btn.classList.toggle('selected', selected);
+      btn.setAttribute('aria-checked', String(selected));
     }
     function styleAdditivBtn(btn, active) {
-      btn.classList.remove('bg-red-200','border-red-500','text-red-900','dark:bg-red-600','dark:text-white','dark:border-red-400','active');
-      if (active) {
-        btn.classList.add('bg-red-200','border-red-500','text-red-900','dark:bg-red-600','dark:text-white','dark:border-red-400','active');
-      }
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-checked', String(active));
     }
 
     function render(data) {
@@ -146,10 +274,10 @@
       container.innerHTML = '';
 
       const farben = {
-        "Wissen & Können": "bg-yellow-50 border-l-4 border-yellow-400 dark:bg-yellow-900/40 dark:border-yellow-500",
-        "Psychosoziale Anforderungen": "bg-blue-50 border-l-4 border-blue-400 dark:bg-blue-900/40 dark:border-blue-500",
-        "Verantwortung": "bg-green-50 border-l-4 border-green-400 dark:bg-green-900/40 dark:border-green-500",
-        "Physische Anforderungen": "bg-purple-50 border-l-4 border-purple-400 dark:bg-purple-900/40 dark:border-purple-500"
+        "Wissen & Können": "bg-yellow-100 border-l-4 border-yellow-500 dark:bg-yellow-900/40 dark:border-yellow-500",
+        "Psychosoziale Anforderungen": "bg-blue-100 border-l-4 border-blue-500 dark:bg-blue-900/40 dark:border-blue-500",
+        "Verantwortung": "bg-green-100 border-l-4 border-green-500 dark:bg-green-900/40 dark:border-green-500",
+        "Physische Anforderungen": "bg-purple-100 border-l-4 border-purple-500 dark:bg-purple-900/40 dark:border-purple-500"
       };
 
       Object.keys(data).forEach(gruppe => {
@@ -157,7 +285,7 @@
         if (!Array.isArray(data[gruppe])) return;
 
         const gruppeWrapper = document.createElement('div');
-        gruppeWrapper.className = `gruppe-wrapper shadow-xl rounded-2xl ${farben[gruppe] || 'bg-white dark:bg-gray-800'} border dark:border-gray-700`;
+        gruppeWrapper.className = `gruppe-wrapper shadow-xl rounded-2xl ${farben[gruppe] || 'bg-white dark:bg-gray-800'} border border-gray-300 dark:border-gray-700`;
         gruppeWrapper.dataset.group = gruppe;
 
         const header = document.createElement('div');
@@ -185,7 +313,7 @@
 
         data[gruppe].forEach(item => {
           const card = document.createElement('div');
-          card.className = 'anforderung-card bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 border border-gray-200 dark:border-gray-700';
+          card.className = 'anforderung-card bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 border border-gray-300 dark:border-gray-700';
           card.dataset.typ = item.typ;
           card.dataset.name = item.name;
           if (item.max) card.dataset.max = item.max;
@@ -195,22 +323,25 @@
 
           const label = document.createElement('div');
           label.className = 'font-bold text-lg break-words flex-1 mr-4';
-          label.textContent = item.typ === 'additiv' && item.max ? `${item.name} (max. ${item.max} Punkte)` : item.name;
+          label.textContent = item.name;
+          if (item.typ === 'additiv' && item.max) {
+            label.appendChild(textSpan(` (max. ${item.max} Punkte)`, 'nur-preview'));
+          }
 
           const beschreibungToggle = document.createElement('button');
-          beschreibungToggle.textContent = 'Mehr anzeigen';
-          beschreibungToggle.className = 'text-sm text-indigo-600 dark:text-indigo-400 underline';
+          beschreibungToggle.textContent = 'Erläuterung';
+          beschreibungToggle.className = 'text-sm text-indigo-700 dark:text-indigo-400 underline';
 
           headerItem.appendChild(label);
           headerItem.appendChild(beschreibungToggle);
 
           const beschreibung = document.createElement('p');
-          beschreibung.className = 'text-sm text-gray-600 dark:text-gray-300 mt-2 hidden';
+          beschreibung.className = 'text-sm text-gray-700 dark:text-gray-300 mt-2 hidden';
           beschreibung.textContent = item.beschreibung || '';
 
           beschreibungToggle.addEventListener('click', () => {
             beschreibung.classList.toggle('hidden');
-            beschreibungToggle.textContent = beschreibung.classList.contains('hidden') ? 'Mehr anzeigen' : 'Weniger anzeigen';
+            beschreibungToggle.textContent = beschreibung.classList.contains('hidden') ? 'Erläuterung' : 'Weniger anzeigen';
           });
 
           card.appendChild(headerItem);
@@ -220,20 +351,11 @@
           wrapper.className = 'space-y-2 mt-3';
 
           if (item.typ === 'skala') {
+            wrapper.setAttribute('role', 'radiogroup');
+            wrapper.setAttribute('aria-label', item.name);
             (item.punkte || []).forEach(p => {
-              const row = document.createElement('div');
-              row.className = 'flex items-center justify-between bg-gray-50 dark:bg-gray-700 rounded-lg p-2 min-h-[3rem]';
-
-              const lbl = document.createElement('span');
-              lbl.className = 'flex-1 mr-4 break-words';
-              lbl.textContent = p.label;
-
-              const btn = document.createElement('button');
-              btn.type = 'button';
-              btn.textContent = `${p.wert} Punkte`;
+              const btn = optionZeile('skala-btn', 'radio', p.label, `${p.wert} Punkte`);
               btn.value = Number(p.wert) || 0;
-              btn.dataset.label = p.label;
-              btn.className = 'skala-btn w-40 h-10 flex-shrink-0 flex items-center justify-center text-center rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 hover:bg-indigo-50 dark:hover:bg-indigo-700';
 
               btn.addEventListener('click', () => {
                 wrapper.querySelectorAll('.skala-btn').forEach(b => styleSkalaBtn(b, false));
@@ -241,42 +363,32 @@
                 berechneSumme();
               });
 
-              row.appendChild(lbl);
-              row.appendChild(btn);
-              wrapper.appendChild(row);
+              wrapper.appendChild(btn);
             });
           } else if (item.typ === 'additiv') {
             (item.optionen || []).forEach(opt => {
-              const row = document.createElement('div');
-              row.className = 'flex items-center justify-between bg-gray-50 dark:bg-gray-700 rounded-lg p-2 min-h-[3rem]';
-
-              const lbl = document.createElement('span');
-              lbl.className = 'flex-1 mr-4 break-words';
-              lbl.textContent = opt.label;
-
-              const cb = document.createElement('input');
-              cb.type = 'checkbox';
-              cb.value = Number(opt.wert) || 0;
-              cb.className = 'hidden';
-
-              const btn = document.createElement('button');
-              btn.type = 'button';
-              btn.textContent = `${opt.wert} Punkt`;
-              btn.dataset.label = opt.label;
+              const btn = optionZeile('additiv-btn', 'checkbox', opt.label, `${opt.wert} Punkt`);
               btn.dataset.value = opt.wert;
-              btn.className = 'additiv-btn w-40 h-10 flex-shrink-0 flex items-center justify-center text-center rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 hover:bg-red-50 dark:hover:bg-red-700';
 
               btn.addEventListener('click', () => {
-                cb.checked = !cb.checked;
-                styleAdditivBtn(btn, cb.checked);
+                styleAdditivBtn(btn, !btn.classList.contains('active'));
+                styleAdditivBtn(keinsBtn, false);
                 berechneSumme();
               });
 
-              row.appendChild(lbl);
-              row.appendChild(btn);
-              row.appendChild(cb);
-              wrapper.appendChild(row);
+              wrapper.appendChild(btn);
             });
+
+            // "Keins trifft zu" schließt alle anderen Optionen aus
+            const keinsBtn = optionZeile('keins-btn', 'checkbox', 'Keins trifft zu', '0 Punkte');
+            keinsBtn.classList.add('mt-4');
+            keinsBtn.addEventListener('click', () => {
+              const aktiv = !keinsBtn.classList.contains('active');
+              styleAdditivBtn(keinsBtn, aktiv);
+              if (aktiv) wrapper.querySelectorAll('.additiv-btn').forEach(b => styleAdditivBtn(b, false));
+              berechneSumme();
+            });
+            wrapper.appendChild(keinsBtn);
           }
 
           card.appendChild(wrapper);
@@ -290,24 +402,99 @@
       berechneSumme();
     }
 
-    function berechneSumme() {
-      let summe = 0;
-      document.querySelectorAll('.anforderung-card').forEach(card => {
-        const typ = card.dataset.typ;
-        if (typ === 'skala') {
-          const selected = card.querySelector('.skala-btn.selected');
-          if (selected) summe += parseInt(selected.value, 10) || 0;
-        } else if (typ === 'additiv') {
-          const max = parseInt(card.dataset.max, 10) || Infinity;
-          let subtotal = 0;
-          card.querySelectorAll('.additiv-btn.active').forEach(btn => {
-            subtotal += parseInt(btn.dataset.value, 10) || 0;
-          });
-          summe += Math.min(subtotal, max);
-        }
-      });
-      document.getElementById('gesamt').textContent = 'Gesamtpunkte: ' + summe;
+    // Punkte einer Anforderung (additiv auf max begrenzt)
+    function punkteKarte(card) {
+      const typ = card.dataset.typ;
+      if (typ === 'skala') {
+        const selected = card.querySelector('.skala-btn.selected');
+        return selected ? (parseInt(selected.value, 10) || 0) : 0;
+      } else if (typ === 'additiv') {
+        const max = parseInt(card.dataset.max, 10) || Infinity;
+        let subtotal = 0;
+        card.querySelectorAll('.additiv-btn.active').forEach(btn => {
+          subtotal += parseInt(btn.dataset.value, 10) || 0;
+        });
+        return Math.min(subtotal, max);
+      }
+      return 0;
     }
+
+    function punkteGruppe(group) {
+      let summe = 0;
+      group.querySelectorAll('.anforderung-card').forEach(card => { summe += punkteKarte(card); });
+      return summe;
+    }
+
+    function gesamtPunkte() {
+      let summe = 0;
+      document.querySelectorAll('.anforderung-card').forEach(card => { summe += punkteKarte(card); });
+      return summe;
+    }
+
+    // Anforderungen, in denen noch nichts gewählt ist (additiv: Option oder "Keins trifft zu")
+    function offeneKarten() {
+      return [...document.querySelectorAll('.anforderung-card')].filter(card =>
+        !card.querySelector('.skala-btn.selected, .additiv-btn.active, .keins-btn.active'));
+    }
+
+    function berechneSumme() {
+      const summe = gesamtPunkte();
+      const eg = entgeltgruppeFuer(summe);
+      const offen = offeneKarten().length;
+      const preview = previewToggle.checked;
+      const gesamt = document.getElementById('gesamt');
+
+      let text;
+      if (preview) {
+        text = `Gesamtpunkte: ${summe}` + (eg ? ` · ${eg}` : '') + (offen ? ` (${offen} Auswahl offen)` : '');
+      } else if (offen) {
+        text = offen === 1 ? 'Noch 1 Auswahl offen' : `Noch ${offen} Auswahlen offen`;
+      } else {
+        text = 'Alle Auswahlen getroffen – Export möglich';
+      }
+      gesamt.textContent = text;
+
+      // Bei offenen Auswahlen springt ein Klick zur ersten offenen Anforderung
+      if (offen) {
+        gesamt.appendChild(textSpan('Zur nächsten offenen Auswahl →', 'block mt-1 text-sm font-medium underline opacity-80'));
+        gesamt.setAttribute('role', 'button');
+        gesamt.tabIndex = 0;
+        gesamt.classList.add('cursor-pointer', 'hover:bg-green-300', 'dark:hover:bg-green-700');
+      } else {
+        gesamt.removeAttribute('role');
+        gesamt.removeAttribute('tabindex');
+        gesamt.classList.remove('cursor-pointer', 'hover:bg-green-300', 'dark:hover:bg-green-700');
+      }
+
+      const exportErlaubt = preview || offen === 0;
+      exportPdfBtn.disabled = !exportErlaubt;
+      exportCsvBtn.disabled = !exportErlaubt;
+    }
+
+    function springeZuOffenerAuswahl() {
+      const card = offeneKarten()[0];
+      if (!card) return;
+
+      // Eingeklappte Gruppe über ihren Header aufklappen
+      const gruppeWrapper = card.closest('.gruppe-wrapper');
+      if (card.parentElement.classList.contains('hidden')) gruppeWrapper.firstElementChild.click();
+
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.classList.add('ring-4', 'ring-amber-400');
+      setTimeout(() => card.classList.remove('ring-4', 'ring-amber-400'), 1800);
+      card.querySelector('button[role="radio"], button[role="checkbox"]')?.focus({ preventScroll: true });
+    }
+
+    const gesamtEl = document.getElementById('gesamt');
+    gesamtEl.addEventListener('click', springeZuOffenerAuswahl);
+    gesamtEl.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); springeZuOffenerAuswahl(); }
+    });
+
+    previewToggle.addEventListener('change', () => {
+      document.body.classList.toggle('preview', previewToggle.checked);
+      berechneSumme();
+    });
     
     function setWatermark(doc) {
       doc.setFontSize(50);
@@ -361,9 +548,6 @@
         "Physische Anforderungen": [147, 51, 234] // violett
       };
 
-      // Version aus JSON holen
-      const anforderungsData = window.currentAnforderungenData || {};
-      const version = anforderungsData.version || "unbekannt";
 
       document.querySelectorAll('.gruppe-wrapper').forEach(group => {
         const gTitle = group.querySelector('h2')?.textContent || '';
@@ -375,6 +559,7 @@
           doc.setFont(undefined, "bold");
           doc.setTextColor(255,255,255);
           doc.text(gTitle, 12, y);
+          doc.text(`${punkteGruppe(group)} Punkte`, 198, y, { align: 'right' });
           doc.setFont(undefined, "normal");
           doc.setTextColor(0,0,0);
           y += 10;
@@ -400,14 +585,18 @@
                 addLine(`     - ${label} (${wert} Punkt)`, 6, 20, 11, "normal", [0,0,0]);
               });
             } else {
-              addLine('   Keine Auswahl', 6, 16, 11, "normal", [0,0,0]);
+              const keins = card.querySelector('.keins-btn.active');
+              addLine(keins ? '   Keins trifft zu' : '   Keine Auswahl', 6, 16, 11, "normal", [0,0,0]);
             }
           }
         });
       });
 
       // Gesamtpunktzahl am Ende
-      const gesamtText = document.getElementById('gesamt')?.textContent || '';
+      // Entgeltgruppe nur im Preview-Modus ausgeben
+      const summe = gesamtPunkte();
+      const eg = previewToggle.checked ? entgeltgruppeFuer(summe) : '';
+      const gesamtText = `Gesamtpunkte: ${summe}` + (eg ? ` · ${eg}` : '');
       if (gesamtText) {
         y += 10;
         doc.setFillColor(34, 197, 94);
@@ -421,17 +610,124 @@
         y += 10;
       }
 
+      // Tabelle Entgeltgruppen mit Punktzahl (nur im Preview-Modus), erreichte Gruppe hervorgehoben
+      if (previewToggle.checked && entgeltgruppen.length) {
+        const zeilenHoehe = 7;
+        if (y + 14 + (entgeltgruppen.length + 1) * zeilenHoehe > 280) {
+          doc.addPage();
+          setWatermark(doc);
+          y = 12;
+        }
+        y += 4;
+        doc.setFontSize(14);
+        doc.setFont(undefined, "bold");
+        doc.text('Entgeltgruppen', 10, y);
+        y += 8;
+
+        doc.setFontSize(11);
+        doc.setFillColor(229, 231, 235);
+        doc.rect(10, y - 5, 120, zeilenHoehe, 'F');
+        doc.text('Entgeltgruppe', 12, y);
+        doc.text('Punkte', 128, y, { align: 'right' });
+        doc.setFont(undefined, "normal");
+        y += zeilenHoehe;
+
+        entgeltgruppen.forEach((g, i) => {
+          const naechste = entgeltgruppen[i + 1];
+          let bereich;
+          if (!naechste) bereich = `ab ${g.ab}`;
+          else if (i === 0) bereich = `bis ${naechste.ab - 1}`;
+          else bereich = `${g.ab} – ${naechste.ab - 1}`;
+
+          const erreicht = eg === `Entgeltgruppe ${g.gruppe}`;
+          if (erreicht) {
+            doc.setFillColor(187, 247, 208);
+            doc.rect(10, y - 5, 120, zeilenHoehe, 'F');
+            doc.setFont(undefined, "bold");
+          }
+          doc.text(`Entgeltgruppe ${g.gruppe}`, 12, y);
+          doc.text(bereich, 128, y, { align: 'right' });
+          doc.setFont(undefined, "normal");
+          doc.setDrawColor(229, 231, 235);
+          doc.line(10, y + 2, 130, y + 2);
+          y += zeilenHoehe;
+        });
+      }
+
       // --- Datum und Version unten einfügen ---
       const heute = new Date().toLocaleDateString("de-DE");
       doc.setFontSize(10);
       doc.setTextColor(100, 100, 100);
       doc.text(`Datum: ${heute}`, 10, 290);
-      doc.text(`Version: ${version}`, 150, 290);
+      doc.text(`App-Version: ${APP_VERSION} · Datenstand: ${datenVersion()}`, 200, 290, { align: 'right' });
 
-      doc.save(`${title.replace(/\\s+/g,'_')}.pdf`);
+      doc.save(`${title.replace(/\s+/g,'_')}.pdf`);
+    });
+
+    // CSV mit Semikolon und BOM, damit Excel (deutsch) Umlaute und Spalten korrekt erkennt
+    function csvFeld(wert) {
+      const s = String(wert ?? '');
+      return /[";\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+    }
+
+    exportCsvBtn.addEventListener('click', () => {
+      const title = (jobTitleInput.value && jobTitleInput.value.trim()) ? jobTitleInput.value.trim() : 'Arbeitsbewertung';
+      const heute = new Date().toLocaleDateString('de-DE');
+
+      const zeilen = [
+        ['Arbeitsplatz', title],
+        ['Datum', heute],
+        ['App-Version', APP_VERSION],
+        ['Datenstand', datenVersion()],
+        [],
+        ['Gruppe', 'Anforderung', 'Typ', 'Auswahl', 'Punkte']
+      ];
+
+      let summe = 0;
+      document.querySelectorAll('.gruppe-wrapper').forEach(group => {
+        const gruppe = group.dataset.group || '';
+        group.querySelectorAll('.anforderung-card').forEach(card => {
+          const name = card.dataset.name || '';
+          const typ = card.dataset.typ;
+
+          if (typ === 'skala') {
+            const sel = card.querySelector('.skala-btn.selected');
+            zeilen.push([gruppe, name, typ, sel ? sel.dataset.label : '', sel ? punkteKarte(card) : '']);
+          } else if (typ === 'additiv') {
+            const max = parseInt(card.dataset.max, 10) || Infinity;
+            const active = [...card.querySelectorAll('.additiv-btn.active')];
+            const keins = card.querySelector('.keins-btn.active');
+            const auswahl = keins ? keins.dataset.label : active.map(btn => btn.dataset.label || '').join(' | ');
+            zeilen.push([gruppe, name, typ + (max !== Infinity ? ` (max ${max})` : ''), auswahl, (active.length || keins) ? punkteKarte(card) : '']);
+          }
+        });
+
+        // Summe des Anforderungsbereichs
+        const gruppenSumme = punkteGruppe(group);
+        summe += gruppenSumme;
+        zeilen.push([gruppe, `Summe ${gruppe}`, '', '', gruppenSumme]);
+      });
+
+      zeilen.push([]);
+      zeilen.push(['Gesamtpunkte', '', '', '', summe]);
+      if (previewToggle.checked) {
+        zeilen.push(['Entgeltgruppe', '', '', entgeltgruppeFuer(summe), '']);
+      }
+
+      const csv = '﻿' + zeilen.map(z => z.map(csvFeld).join(';')).join('\r\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${title.replace(/\s+/g, '_')}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
     });
 
     ladeAnforderungen();
+    ladeEntgeltgruppen();
   </script>
 </body>
 </html>
