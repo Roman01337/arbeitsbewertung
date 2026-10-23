@@ -376,8 +376,8 @@
               wrapper.appendChild(btn);
             });
 
-            // "Keins trifft zu" schließt alle anderen Optionen aus
-            const keinsBtn = optionZeile('keins-btn', 'checkbox', 'Keins trifft zu', '0 Punkte');
+            // "Nicht zutreffend" schließt alle anderen Optionen aus
+            const keinsBtn = optionZeile('keins-btn', 'checkbox', 'Nicht zutreffend', '0 Punkte');
             keinsBtn.classList.add('mt-4');
             keinsBtn.addEventListener('click', () => {
               const aktiv = !keinsBtn.classList.contains('active');
@@ -428,7 +428,7 @@
       return summe;
     }
 
-    // Anforderungen, in denen noch nichts gewählt ist (additiv: Option oder "Keins trifft zu")
+    // Anforderungen, in denen noch nichts gewählt ist (additiv: Option oder "Nicht zutreffend")
     function offeneKarten() {
       return [...document.querySelectorAll('.anforderung-card')].filter(card =>
         !card.querySelector('.skala-btn.selected, .additiv-btn.active, .keins-btn.active'));
@@ -583,7 +583,7 @@
               });
             } else {
               const keins = card.querySelector('.keins-btn.active');
-              addLine(keins ? '   Keins trifft zu' : '   Keine Auswahl', 6, 16, 11, "normal", [0,0,0]);
+              addLine(keins ? '   Nicht zutreffend' : '   Keine Auswahl', 6, 16, 11, "normal", [0,0,0]);
             }
           }
         });
